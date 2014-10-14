@@ -15,3 +15,6 @@ libraryDependencies ++= {
   )
 }
 
+lazy val akka_api = RootProject(file("../wcs-akka-api"))
+
+lazy val root = project.in(file(".")).dependsOn(akka_api)

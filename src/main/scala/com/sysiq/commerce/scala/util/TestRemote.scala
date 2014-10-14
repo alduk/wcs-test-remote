@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import com.typesafe.config.ConfigFactory
 import com.typesafe.config.Config
 import java.net._
-
+import com.sysiq.commerce.akka.api.RegistriesAPI.Command
 
 object TestRemote extends App {
   val path = "akka.tcp://WCSSystem@saas-gen-dev-01.kiev.ecofabric.com:6666/user/proxy"
@@ -24,7 +24,7 @@ object TestRemote extends App {
   }
 
   val hostName = InetAddress.getLocalHost.getCanonicalHostName
-  
+
   println(s"hostname=$hostName")
 
   val hostConf = ConfigFactory.parseString(s"akka.remote.netty.hostname = $hostName")
@@ -43,24 +43,17 @@ object TestRemote extends App {
   f1 onComplete { x =>
     println(x)
   }
-  
+
   val f2 = testActor ? "test2"
 
   f2 onComplete { x =>
     println(x)
   }
-  /*  val f2 = testActor ? Command
 
-  val f3 = f1.zip(f2)
+  val f3 = testActor ? Command
 
-  f3 onComplete { x =>
+  f3 onComplete { x=>
     println(x)
   }
 
-  val ak = system.actorSelection(path)
-  println(ak)
-  val f4 = ak ? Command
-  f4 onComplete { x =>
-    println(x)
-  }*/
 }
